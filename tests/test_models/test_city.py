@@ -1,13 +1,12 @@
 #!/usr/bin/python3
 """Defines TestCityDocs classes"""
-
-from datetime import datetime
+import unittest
 import inspect
 import models
 from models import city
 from models.base_model import BaseModel
 import pep8
-import unittest
+
 City = city.City
 
 
@@ -56,6 +55,7 @@ class TestCityDocs(unittest.TestCase):
 
 class TestCity(unittest.TestCase):
     """Test the City class"""
+
     def test_is_subclass(self):
         """Checks if City is a subclass of BaseModel"""
         city = City()
@@ -83,13 +83,13 @@ class TestCity(unittest.TestCase):
             self.assertEqual(city.state_id, "")
 
     def test_to_dict_creates_dict(self):
-        """Checks if test to_dict method creates a dictionary with proper attrs"""
+        """Checks if test to_dict method"""
         c = City()
         new_d = c.to_dict()
         self.assertEqual(type(new_d), dict)
         self.assertFalse("_sa_instance_state" in new_d)
         for attr in c.__dict__:
-            if attr is not "_sa_instance_state":
+            if attr != "_sa_instance_state":
                 self.assertTrue(attr in new_d)
         self.assertTrue("__class__" in new_d)
 

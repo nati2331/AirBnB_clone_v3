@@ -1,21 +1,23 @@
 #!/usr/bin/python3
 """Defines the TestAmenityDocs classes"""
 
-from datetime import datetime
-import inspect
-import models
-from models import amenity
-from models.base_model import BaseModel
-import pep8
 import unittest
-Amenity = amenity.Amenity
+import inspect
+import pep8
+
+import models
+from models import amenity as amenity_module
+from models.base_model import BaseModel
+
+Amenity = amenity_module.Amenity
 
 
 class TestAmenityDocs(unittest.TestCase):
-    """Tests to vaildate the documentation and style of Amenity class"""
+    """Tests to validate the documentation and style of Amenity class"""
+
     @classmethod
     def setUpClass(cls):
-        """Intializes the doc tests"""
+        """Initializes the doc tests"""
         cls.amenity_f = inspect.getmembers(Amenity, inspect.isfunction)
 
     def test_pep8_conformance_amenity(self):
@@ -34,9 +36,9 @@ class TestAmenityDocs(unittest.TestCase):
 
     def test_amenity_module_docstring(self):
         """Checks for the presence of amenity.py module docstring"""
-        self.assertIsNot(amenity.__doc__, None,
+        self.assertIsNot(amenity_module.__doc__, None,
                          "amenity.py needs a docstring")
-        self.assertTrue(len(amenity.__doc__) >= 1,
+        self.assertTrue(len(amenity_module.__doc__) >= 1,
                         "amenity.py needs a docstring")
 
     def test_amenity_class_docstring(self):
@@ -57,6 +59,7 @@ class TestAmenityDocs(unittest.TestCase):
 
 class TestAmenity(unittest.TestCase):
     """Test the Amenity class"""
+
     def test_is_subclass(self):
         """Checks if Amenity is a subclass of BaseModel"""
         amenity = Amenity()
@@ -66,7 +69,7 @@ class TestAmenity(unittest.TestCase):
         self.assertTrue(hasattr(amenity, "updated_at"))
 
     def test_name_attr(self):
-        """Checks if Amenity has attribute name, and it's as an empty string"""
+        """Checks if Amenity has attribute name, and it's an empty string"""
         amenity = Amenity()
         self.assertTrue(hasattr(amenity, "name"))
         if models.storage_t == 'db':
@@ -75,18 +78,18 @@ class TestAmenity(unittest.TestCase):
             self.assertEqual(amenity.name, "")
 
     def test_to_dict_creates_dict(self):
-        """Checks if the to_dict method creates a dictionary with proper attrs"""
+        """Checks the to_dict method creates a dictionary"""
         am = Amenity()
         new_d = am.to_dict()
         self.assertEqual(type(new_d), dict)
         self.assertFalse("_sa_instance_state" in new_d)
         for attr in am.__dict__:
-            if attr is not "_sa_instance_state":
+            if attr != "_sa_instance_state":
                 self.assertTrue(attr in new_d)
         self.assertTrue("__class__" in new_d)
 
     def test_to_dict_values(self):
-        """checks if values in dict returned from to_dict are correct"""
+        """Checks if values in dict returned from to_dict are correct"""
         t_format = "%Y-%m-%dT%H:%M:%S.%f"
         am = Amenity()
         new_d = am.to_dict()
@@ -97,8 +100,7 @@ class TestAmenity(unittest.TestCase):
         self.assertEqual(new_d["updated_at"], am.updated_at.strftime(t_format))
 
     def test_str(self):
-        """checks if the str method has the correct output"""
+        """Checks if the str method has the correct output"""
         amenity = Amenity()
         string = "[Amenity] ({}) {}".format(amenity.id, amenity.__dict__)
         self.assertEqual(string, str(amenity))
-
