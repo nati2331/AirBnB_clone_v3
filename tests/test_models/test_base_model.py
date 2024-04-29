@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Test BaseModel"""
+"""Checks BaseModel for expected behavior and documentation"""
 from datetime import datetime
 import inspect
 import models
@@ -12,15 +12,15 @@ module_doc = models.base_model.__doc__
 
 
 class TestBaseModelDocs(unittest.TestCase):
-    """Checks if the documentation and style of BaseModel class"""
+    """checks the documentation and style of BaseModel class"""
 
     @classmethod
     def setUpClass(self):
-        """Intializes for docstring tests"""
+        """Set up for docstring tests"""
         self.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
 
     def test_pep8_conformance(self):
-        """Checks if models/base_model.py asheres to PEP8."""
+        """Checks models/base_model.py conforms to PEP8."""
         for path in ['models/base_model.py',
                      'tests/test_models/test_base_model.py']:
             with self.subTest(path=path):
@@ -28,21 +28,21 @@ class TestBaseModelDocs(unittest.TestCase):
                 self.assertEqual(errors, 0)
 
     def test_module_docstring(self):
-        """Checks if the existence of module docstring"""
+        """Checks the existence of module docstring"""
         self.assertIsNot(module_doc, None,
                          "base_model.py needs a docstring")
         self.assertTrue(len(module_doc) > 1,
                         "base_model.py needs a docstring")
 
     def test_class_docstring(self):
-        """Checks if the BaseModel class docstring"""
+        """Checks the BaseModel class docstring"""
         self.assertIsNot(BaseModel.__doc__, None,
                          "BaseModel class needs a docstring")
         self.assertTrue(len(BaseModel.__doc__) >= 1,
                         "BaseModel class needs a docstring")
 
     def test_func_docstrings(self):
-        """Checks if the presence of docstrings in BaseModel methods"""
+        """Checks the presence of docstrings in BaseModel methods"""
         for func in self.base_funcs:
             with self.subTest(function=func):
                 self.assertIsNot(
@@ -55,10 +55,11 @@ class TestBaseModelDocs(unittest.TestCase):
                     "{:s} method needs a docstring".format(func[0])
                 )
 
+
 class TestBaseModel(unittest.TestCase):
-    """Test the BaseModel class"""
+    """Checks the BaseModel class"""
     def test_instantiation(self):
-        """Checks if the object is correctly created"""
+        """Checks that object is correctly created"""
         inst = BaseModel()
         self.assertIs(type(inst), BaseModel)
         inst.name = "Holberton"
@@ -79,7 +80,6 @@ class TestBaseModel(unittest.TestCase):
 
     def test_datetime_attributes(self):
         """Test that two BaseModel instances have different datetime objects
-        and that upon creation have identical updated_at and created_at
         value."""
         tic = datetime.now()
         inst1 = BaseModel()
@@ -96,7 +96,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(inst1.updated_at, inst2.updated_at)
 
     def test_uuid(self):
-        """Checks if that id is a valid uuid"""
+        """Checks that id is a valid uuid"""
         inst1 = BaseModel()
         inst2 = BaseModel()
         for inst in [inst1, inst2]:
@@ -110,7 +110,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(inst1.id, inst2.id)
 
     def test_to_dict(self):
-        """Checks if conversion of object attributes to dictionary for json"""
+        """Checks conversion of object attributes to dictionary for json"""
         my_model = BaseModel()
         my_model.name = "Holberton"
         my_model.my_number = 89
@@ -127,7 +127,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(d['my_number'], 89)
 
     def test_to_dict_values(self):
-        """Checks if the values in dict returned from to_dict are correct"""
+        """Checks if values in dict returned from to_dict are correct"""
         t_format = "%Y-%m-%dT%H:%M:%S.%f"
         bm = BaseModel()
         new_d = bm.to_dict()
@@ -145,7 +145,7 @@ class TestBaseModel(unittest.TestCase):
 
     @mock.patch('models.storage')
     def test_save(self, mock_storage):
-        """Checks that save method updates `updated_at` and calls
+        """Checks save method updates `updated_at` and calls
         `storage.save`"""
         inst = BaseModel()
         old_created_at = inst.created_at
