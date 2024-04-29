@@ -21,12 +21,12 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """Interacts with the MySQL database"""
+    """interaacts with the MySQL database"""
     __engine = None
     __session = None
 
     def __init__(self):
-        """Instantiates a DBStorage object"""
+        """Instantiate a DBStorage object"""
         HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
         HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
@@ -40,8 +40,8 @@ class DBStorage:
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
-    def all(self, cls=None): 
-        """Query on the current database session"""
+    def all(self, cls=None):
+        """query on the current database session"""
         new_dict = {}
         for clss in classes:
             if cls is None or cls is classes[clss] or cls is clss:
@@ -50,16 +50,17 @@ class DBStorage:
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
         return (new_dict)
+
     def new(self, obj):
-        """Adds the object to the current database session"""
+        """add the object to the current database session"""
         self.__session.add(obj)
 
     def save(self):
-        """Commit all changes of the current database session"""
+        """commit all changes of the current database session"""
         self.__session.commit()
 
     def delete(self, obj=None):
-        """delete specified object from the current database session"""
+        """delete from the current database session obj if not None"""
         if obj is not None:
             self.__session.delete(obj)
 
@@ -75,7 +76,10 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        """Returns the object based on the class name and its ID"""
+        """
+        Returns the object based on the class name and its ID, or None if not
+        found
+        """
         objects = self.__session.query(classes[cls])
         for obj in objects:
             if obj.id == id:
@@ -84,7 +88,7 @@ class DBStorage:
 
     def count(self, cls=None):
         """
-        Returns the number of objects in storage matching the specified class name.
+        Returns the number of objects in storage matching the given class name.
         If no name is passed, returns the count of all objects in storage.
         """
         nobjects = 0
