@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" holds class State"""
+""" Class State"""
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 
 
 class State(BaseModel, Base):
-    """Representation of state """
+    """Defines state """
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'states'
         name = Column(String(128),
@@ -20,13 +20,13 @@ class State(BaseModel, Base):
         name = ""
 
     def __init__(self, *args, **kwargs):
-        """initializes state"""
+        """initialization of state"""
         super().__init__(*args, **kwargs)
 
     if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def cities(self):
-            """fs getter attribute that returns City instances"""
+            """fs getter that returns City instances"""
             values_city = models.storage.all("City").values()
             list_city = []
             for city in values_city:

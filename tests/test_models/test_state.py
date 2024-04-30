@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Contains the TestStateDocs classes
-"""
+"""Contains the TestStateDocs classes"""
 
 from datetime import datetime
 import inspect
@@ -14,42 +12,42 @@ State = state.State
 
 
 class TestStateDocs(unittest.TestCase):
-    """Tests to check the documentation and style of State class"""
+    """Checks the documentation of State class"""
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""
         cls.state_f = inspect.getmembers(State, inspect.isfunction)
 
     def test_pep8_conformance_state(self):
-        """Test that models/state.py conforms to PEP8."""
+        """Checks state.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['models/state.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
     def test_pep8_conformance_test_state(self):
-        """Test that tests/test_models/test_state.py conforms to PEP8."""
+        """Checks if test_state.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['tests/test_models/test_state.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
     def test_state_module_docstring(self):
-        """Test for the state.py module docstring"""
+        """Checks for the state.py docstring"""
         self.assertIsNot(state.__doc__, None,
                          "state.py needs a docstring")
         self.assertTrue(len(state.__doc__) >= 1,
                         "state.py needs a docstring")
 
     def test_state_class_docstring(self):
-        """Test for the State class docstring"""
+        """Checks for the State docstring"""
         self.assertIsNot(State.__doc__, None,
                          "State class needs a docstring")
         self.assertTrue(len(State.__doc__) >= 1,
                         "State class needs a docstring")
 
     def test_state_func_docstrings(self):
-        """Test for the presence of docstrings in State methods"""
+        """Checks the presence of docstrings in State"""
         for func in self.state_f:
             self.assertIsNot(func[1].__doc__, None,
                              "{:s} method needs a docstring".format(func[0]))
@@ -62,7 +60,7 @@ class TestState(unittest.TestCase):
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "Testing DBStorage")
     def test_is_subclass(self):
-        """Test that State is a subclass of BaseModel"""
+        """Checks if State is a subclass of BaseModel"""
         state = State()
         self.assertIsInstance(state, BaseModel)
         self.assertTrue(hasattr(state, "id"))
@@ -73,7 +71,7 @@ class TestState(unittest.TestCase):
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "Testing DBStorage")
     def test_name_attr(self):
-        """Test that State has attribute name, and it's as an empty string"""
+        """Checks State has attribute name"""
         state = State()
         self.assertTrue(hasattr(state, "name"))
         self.assertEqual(state.name, "")
@@ -82,7 +80,7 @@ class TestState(unittest.TestCase):
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "Testing DBStorage")
     def test_to_dict_creates_dict(self):
-        """test to_dict method creates a dictionary with proper attrs"""
+        """test to_dict method creates a list"""
         s = State()
         new_d = s.to_dict()
         self.assertEqual(type(new_d), dict)
@@ -96,7 +94,7 @@ class TestState(unittest.TestCase):
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "Testing DBStorage")
     def test_to_dict_values(self):
-        """test that values in dict returned from to_dict are correct"""
+        """checks values in dict returned are correct"""
         t_format = "%Y-%m-%dT%H:%M:%S.%f"
         s = State()
         new_d = s.to_dict()
@@ -110,13 +108,13 @@ class TestState(unittest.TestCase):
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "Testing DBStorage")
     def test_str(self):
-        """test that the str method has the correct output"""
+        """Checks the str method has the correct output"""
         state = State()
         string = "[State] ({}) {}".format(state.id, state.__dict__)
         self.assertEqual(string, str(state))
         del state#!/usr/bin/python3
 """
-Contains the TestStateDocs classes
+TestStateDocs classes
 """
 
 from datetime import datetime
@@ -130,42 +128,42 @@ State = state.State
 
 
 class TestStateDocs(unittest.TestCase):
-    """Tests to check the documentation and style of State class"""
+    """Checks the documentation of State class"""
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""
         cls.state_f = inspect.getmembers(State, inspect.isfunction)
 
     def test_pep8_conformance_state(self):
-        """Test that models/state.py conforms to PEP8."""
+        """Checks state.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['models/state.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
     def test_pep8_conformance_test_state(self):
-        """Test that tests/test_models/test_state.py conforms to PEP8."""
+        """Checks test_state.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['tests/test_models/test_state.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
     def test_state_module_docstring(self):
-        """Test for the state.py module docstring"""
+        """Checks state.py docstring"""
         self.assertIsNot(state.__doc__, None,
                          "state.py needs a docstring")
         self.assertTrue(len(state.__doc__) >= 1,
                         "state.py needs a docstring")
 
     def test_state_class_docstring(self):
-        """Test for the State class docstring"""
+        """Checks State class docstring"""
         self.assertIsNot(State.__doc__, None,
                          "State class needs a docstring")
         self.assertTrue(len(State.__doc__) >= 1,
                         "State class needs a docstring")
 
     def test_state_func_docstrings(self):
-        """Test for the presence of docstrings in State methods"""
+        """Checks presence of docstrings in State"""
         for func in self.state_f:
             self.assertIsNot(func[1].__doc__, None,
                              "{:s} method needs a docstring".format(func[0]))
@@ -178,7 +176,7 @@ class TestState(unittest.TestCase):
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "Testing DBStorage")
     def test_is_subclass(self):
-        """Test that State is a subclass of BaseModel"""
+        """Checks State is a subclass of BaseModel"""
         state = State()
         self.assertIsInstance(state, BaseModel)
         self.assertTrue(hasattr(state, "id"))
@@ -189,7 +187,7 @@ class TestState(unittest.TestCase):
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "Testing DBStorage")
     def test_name_attr(self):
-        """Test that State has attribute name, and it's as an empty string"""
+        """Checks if State has attribute name"""
         state = State()
         self.assertTrue(hasattr(state, "name"))
         self.assertEqual(state.name, "")
@@ -198,7 +196,7 @@ class TestState(unittest.TestCase):
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "Testing DBStorage")
     def test_to_dict_creates_dict(self):
-        """test to_dict method creates a dictionary with proper attrs"""
+        """Checks to_dict method creates a list"""
         s = State()
         new_d = s.to_dict()
         self.assertEqual(type(new_d), dict)
@@ -212,7 +210,7 @@ class TestState(unittest.TestCase):
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "Testing DBStorage")
     def test_to_dict_values(self):
-        """test that values in dict returned from to_dict are correct"""
+        """checks if values in dict returned are correct"""
         t_format = "%Y-%m-%dT%H:%M:%S.%f"
         s = State()
         new_d = s.to_dict()
@@ -226,7 +224,7 @@ class TestState(unittest.TestCase):
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "Testing DBStorage")
     def test_str(self):
-        """test that the str method has the correct output"""
+        """Checks the str method has the correct output"""
         state = State()
         string = "[State] ({}) {}".format(state.id, state.__dict__)
         self.assertEqual(string, str(state))

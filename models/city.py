@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" holds class City"""
+""" Class City"""
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -10,7 +10,7 @@ from sqlalchemy import ForeignKey
 
 
 class City(BaseModel, Base):
-    """Representation of city """
+    """Defines city """
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'cities'
         name = Column(String(128),

@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" holds class Place"""
+""" Class Place"""
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -22,7 +22,7 @@ if getenv('HBNB_TYPE_STORAGE') == 'db':
 
 
 class Place(BaseModel, Base):
-    """Representation of Place """
+    """Defines Place """
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'places'
         city_id = Column(String(60),
@@ -69,12 +69,12 @@ class Place(BaseModel, Base):
         amenity_ids = []
 
     def __init__(self, *args, **kwargs):
-        """initializes Place"""
+        """initialization Place"""
         super().__init__(*args, **kwargs)
 
     @property
     def reviews(self):
-        """attribute that returns list of Review instances"""
+        """returns list of Review instances"""
         values_review = models.storage.all("Review").values()
         list_review = []
         for review in values_review:
@@ -85,7 +85,7 @@ class Place(BaseModel, Base):
     if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def amenities(self):
-            """attribute that returns list of Amenity instances"""
+            """returns list of Amenity instances"""
             values_amenity = models.storage.all("Amenity").values()
             list_amenity = []
             for amenity in values_amenity:
