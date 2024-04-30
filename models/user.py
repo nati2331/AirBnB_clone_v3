@@ -1,17 +1,17 @@
 #!/usr/bin/python3
 """ Class User"""
-import models
 from models.base_model import BaseModel, Base
-from os import getenv
-import sqlalchemy
+import os
+import hashlib
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-import hashlib
 
+# Accessing storage_t from environment variables
+storage_t = os.getenv('HBNB_TYPE_STORAGE')
 
 class User(BaseModel, Base):
     """Class user """
-    if models.storage_t == 'db':
+    if storage_t == 'db':
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)

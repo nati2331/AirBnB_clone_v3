@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 """ Class Review"""
-import models
 from models.base_model import BaseModel, Base
-from os import getenv
-import sqlalchemy
+import os
 from sqlalchemy import Column, String, ForeignKey
 
+# Accessing storage_t from environment variables
+storage_t = os.getenv('HBNB_TYPE_STORAGE')
 
 class Review(BaseModel, Base):
     """Class Review """
-    if models.storage_t == 'db':
+    if storage_t == 'db':
         __tablename__ = 'reviews'
         place_id = Column(String(60), ForeignKey('places.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)

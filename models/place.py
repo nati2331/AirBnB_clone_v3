@@ -1,13 +1,16 @@
 #!/usr/bin/python3
 """ Class Place"""
-import models
+import os
 from models.base_model import BaseModel, Base
-from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
 
-if models.storage_t == 'db':
+# Accessing storage_t from environment variables
+storage_t = os.getenv('HBNB_TYPE_STORAGE')
+
+# Defining the association table for the many-to-many relationship
+if storage_t == 'db':
     place_amenity = Table('place_amenity', Base.metadata,
                           Column('place_id', String(60),
                                  ForeignKey('places.id', onupdate='CASCADE',
@@ -21,7 +24,7 @@ if models.storage_t == 'db':
 
 class Place(BaseModel, Base):
     """Class Place """
-    if models.storage_t == 'db':
+    if storage_t == 'db':
         __tablename__ = 'places'
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -34,7 +37,7 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         reviews = relationship("Review", backref="place")
-        amenities = relationship("Amenity", secondary="place_amenity",
+        amenities = relationship("Amenity", secondary=place_amenity,
                                  backref="place_amenities",
                                  viewonly=False)
     else:
@@ -54,10 +57,11 @@ class Place(BaseModel, Base):
         """initializes Place"""
         super().__init__(*args, **kwargs)
 
-    if models.storage_t != 'db':
+    # If not using database storage, define properties to retrieve related objects
+    if storage_t != 'db':
         @property
         def reviews(self):
-            """gets attributes and returns the list of Review"""
+            """Gets attributes and returns the list of Review"""
             from models.review import Review
             review_list = []
             all_reviews = models.storage.all(Review)
@@ -68,7 +72,7 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
-            """gets attribute returns the list of Amenity"""
+            """Gets attributes and returns the list of Amenity"""
             from models.amenity import Amenity
             amenity_list = []
             all_amenities = models.storage.all(Amenity)

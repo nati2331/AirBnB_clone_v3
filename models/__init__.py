@@ -1,3 +1,8 @@
+#!/usr/bin/python3
+"""
+initialize the models package
+"""
+
 import os
 from models.base_model import BaseModel
 from models.amenity import Amenity
@@ -15,7 +20,8 @@ if os.environ.get('HBNB_TYPE_STORAGE') == 'db':
     storage = db_storage.DBStorage()
 else:
     from models.engine import file_storage
-    CNC = file_storage.FileStorage.CNC
+    # Accessing the classes dictionary directly
+    CNC = file_storage.classes
     storage = file_storage.FileStorage()
 
 storage.reload()

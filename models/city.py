@@ -7,10 +7,12 @@ import sqlalchemy
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 
+storage_t = getenv("HBNB_TYPE_STORAGE")
+
 
 class City(BaseModel, Base):
     """Class city """
-    if models.storage_t == "db":
+    if storage_t == "db":  # Corrected attribute access
         __tablename__ = 'cities'
         state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
         name = Column(String(128), nullable=False)
@@ -22,3 +24,4 @@ class City(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes city"""
         super().__init__(*args, **kwargs)
+
