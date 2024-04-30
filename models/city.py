@@ -1,27 +1,30 @@
 #!/usr/bin/python3
-""" Class City"""
+""" holds class City"""
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
 import sqlalchemy
-from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-
-storage_t = getenv("HBNB_TYPE_STORAGE")
+from sqlalchemy import ForeignKey
 
 
 class City(BaseModel, Base):
-    """Class city """
-    if storage_t == "db":  # Corrected attribute access
+    """Representation of city """
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'cities'
-        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
-        name = Column(String(128), nullable=False)
-        places = relationship("Place", backref="cities")
+        name = Column(String(128),
+                      nullable=False)
+        state_id = Column(String(60),
+                          ForeignKey('states.id'),
+                          nullable=False)
+        places = relationship("Place",
+                              backref="cities",
+                              cascade="all, delete-orphan")
     else:
-        state_id = ""
         name = ""
+        state_id = ""
 
     def __init__(self, *args, **kwargs):
         """initializes city"""
         super().__init__(*args, **kwargs)
-

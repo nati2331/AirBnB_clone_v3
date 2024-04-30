@@ -1,35 +1,47 @@
 #!/usr/bin/python3
-""" Class User"""
-from models.base_model import BaseModel, Base
-import os
+""" holds class User"""
 import hashlib
-from sqlalchemy import Column, String
+import models
+from models.base_model import BaseModel, Base
+from os import getenv
 from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String
 
-# Accessing storage_t from environment variables
-storage_t = os.getenv('HBNB_TYPE_STORAGE')
 
 class User(BaseModel, Base):
-    """Class user """
-    if storage_t == 'db':
+    """Representation of a user """
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'users'
-        email = Column(String(128), nullable=False)
-        password = Column(String(128), nullable=False)
-        first_name = Column(String(128), nullable=True)
-        last_name = Column(String(128), nullable=True)
-        places = relationship("Place", backref="user")
-        reviews = relationship("Review", backref="user")
+        email = Column(String(128),
+                       nullable=False)
+        _password = Column('password',
+                           String(128),
+                           nullable=False)
+        first_name = Column(String(128),
+                            nullable=True)
+        last_name = Column(String(128),
+                           nullable=True)
+        places = relationship("Place",
+                              backref="user",
+                              cascade="all, delete-orphan")
+        reviews = relationship("Review",
+                               backref="user",
+                               cascade="all, delete-orphan")
     else:
         email = ""
-        password = ""
+        _password = ""
         first_name = ""
         last_name = ""
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
-        if 'password' in kwargs:
-            password = kwargs['password']
-            m = hashlib.md5()
-            m.update(str.encode(password))
-            kwargs['password'] = m.hexdigest()
         super().__init__(*args, **kwargs)
+
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, pwd):
+        """hashing password values"""
+        self._password = hashlib.md5(pwd.encode()).hexdigest()
